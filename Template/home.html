@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block class %}{% endblock %}
+
+{% block hero %}
+{{ block.super }}
+{% endblock %}
+{% block main %}
+<!-- ================= OFFER PREVIEW ================= -->
+<section class="offer_section layout_padding-bottom">
+  <div class="container text-center">
+
+    <h2 class="offer-title">🔥 Current Collection </h2>
+    <p class="offer-subtitle">
+      🚜🌾Your one-stop destination for trusted tractor sales and service.🌾🚜
+    </p>
+
+     <!-- Button -->
+    <div class="offer_section tractor-btn-wrapper">
+      <a href="{% url 'tractor_collection' %}" class="tractor-btn">
+        🚜 View Tractor Collection
+      </a>
+    </div>
+  </div>
+</section>
+
+
+{% endblock main %}

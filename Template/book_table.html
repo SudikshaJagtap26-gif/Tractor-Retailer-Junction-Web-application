@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block class %}sub_page{% endblock class %}
+{% block table_status %}active{% endblock table_status %}
+{% block main %}
+
+<!-- book section -->
+<section class="book_section layout_padding">
+  <div class="container">
+    <div class="heading_container">
+      <h2>Request a Workshop Visit</h2>
+    </div>
+<div class="row">
+  <!-- Form Column -->
+  <div class="col-md-8">
+    <div class="form_container">
+
+
+      <form onsubmit="sendWhatsApp(event)">
+  <div>
+    <input type="text" id="name" class="form-control"
+           placeholder="Customer Name" required>
+  </div>
+
+  <div>
+    <input type="tel" id="phone" class="form-control"
+           placeholder="Mobile Number" pattern="[0-9]{10}" required>
+  </div>
+
+  <div class="btn_box">
+    <button type="submit">Submit Visit Request</button>
+  </div>
+          <script>
+function sendWhatsApp(event) {
+  event.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+
+  const ownerPhone = "919423587536";
+
+  const message =
+` New Workshop Visit Request
+
+ Customer Name: ${name}
+ Mobile: ${phone}
+
+Please contact the customer.`;
+
+
+  const whatsappURL =
+  `https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
+
+  window.open(whatsappURL, "_blank");
+}
+</script>
+        </div>
+      </form>
+
+    </div>
+  </div>
+<!-- end book section -->
+{% endblock main %}

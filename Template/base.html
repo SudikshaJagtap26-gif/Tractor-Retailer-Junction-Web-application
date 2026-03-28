@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<head>
+  <!-- Basic -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!-- Mobile Metas -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Site Metas -->
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="">
+
+  <title> Workshop and Showroom </title>
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+
+  <!--owl slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <!-- nice select  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
+  <!-- font awesome style -->
+  <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet" />
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+
+</head>
+
+<body class="{% block class %}{% endblock class %}">
+{% block hero %}
+<div class="hero_area">
+  <div class="bg-box">
+    <img src="{% static 'images/green tractor.jpg' %}" alt="">
+  </div>
+    <!-- HERO TEXT -->
+  <div class="hero-text">
+    <h1>Shri Samartha</h1>
+    <p>• Sales • Service • Trusted All Tractor Brands</p>
+  </div>
+
+    <!-- LOGO -->
+  <div class="hero-logo">
+    <img src="{% static 'images/logo.png' %}" alt="Logo">
+  </div>
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg custom_nav-container ">
+          <a class="navbar-brand" href="{% url "Home" %}">
+            
+          </a>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class=""> </span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  mx-auto ">
+              <li class="nav-item {% block home_status %}{% endblock home_status %}">
+                <a class="nav-link" href="{% url 'Home' %}">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item {% block menu_status %}{% endblock menu_status %}">
+                <a class="nav-link " href="{% url 'Menu' %}">Catlog</a>
+              </li>
+              <li class="nav-item {% block about_status %}{% endblock about_status %}">
+                <a class="nav-link" href="{% url 'About' %}">About</a>
+              </li>
+              <li class="nav-item {% block table_status %}{% endblock table_status %}">
+                <a class="nav-link" href="{% url 'visit' %}">Visit</a>
+              </li>
+              <li class="nav-item {% block feedback_status %}{% endblock feedback_status %}">
+                <a class="nav-link" href="{% url 'Feedback_Form' %}">Feedback</a>
+              </li>
+            </ul>
+            <div class="user_option">
+              <div class="user_option">
+               {% if user.is_authenticated %}
+<span style="background-color: #f8c6c6; color: #000; padding: 5px 10px; border-radius: 5px; font-weight: bold;">
+  {{ user.username }}
+</span>
+<a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
+{% endif %}
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+</div>
+{% endblock hero %}
+    <!-- end header section -->
+
+    
+    {% block slider %}{% endblock slider %}
+  </div>
+
+ <main class="flex-fill">
+  {% block main %}{% endblock main %}
+</main>
+  <!-- footer section -->
+  <footer class="footer_section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 footer-col">
+          <div class="footer_contact">
+            <h4>
+              Contact Us
+            </h4>
+            <div class="contact_link_box">
+
+  <!-- Location -->
+  <a href="https://www.google.com/maps/place/Kurduvadi,+Maharashtra+413208"
+     target="_blank">
+    <i class="fa fa-map-marker" aria-hidden="true"></i>
+    <span>
+      Location
+    </span>
+  </a>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/919423587536" target="_blank">
+    <i class="fa fa-phone" aria-hidden="true"></i>
+    <span>
+      Call +91 9423587536
+    </span>
+  </a>
+
+  <!-- Email -->
+  <a href="mailto:jagtapjaising@gmail.com">
+    <i class="fa fa-envelope" aria-hidden="true"></i>
+    <span>
+      jagtapjaising@gmail.com
+    </span>
+  </a>
+
+</div>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <div class="footer_detail">
+            <a href="" class="footer-logo">
+              Workshop and Showroom,sales and services
+            </a>
+            <p>
+              We offer a wide range of tractors from all leading brands, suitable for every farming need. Along with sales, we provide reliable and professional tractor services to ensure excellent performance and long-lasting durability. From purchase to maintenance, we are your trusted partner for all tractor-related needs. 🚜
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 footer-col">
+          <h4>
+            Opening Hours
+          </h4>
+          <p>
+            Everyday
+          </p>
+          <p>
+            10.00 Am -8.00 Pm
+          </p>
+        </div>
+      </div>
+      <div class="footer-info">
+        <!-- <p>
+          &copy; <span id="displayYear"></span> All Rights Reserved By
+          <a href="https://html.design/">Free Html Templates</a><br><br>
+          &copy; <span id="displayYear"></span> Distributed By
+          <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+        </p> -->
+      </div>
+    </div>
+  </footer>
+  <!-- footer section -->
+
+  <!-- jQery -->
+  <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <!-- bootstrap js -->
+  <script src="{% static 'js/bootstrap.js' %} "></script>
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+  </script>
+  <!-- isotope js -->
+  <script src="https://unpkg.com/isotope-layout@3.0.4/dist/isotope.pkgd.min.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"></script>
+  <!-- custom js -->
+  <script src="{% static 'js/custom.js' %} "></script>
+  <!-- Google Map -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+  </script>
+  <!-- End Google Map -->
+   {% if offer %}
+<div id="offerPopup" style="
+position: fixed;
+bottom: 20px;
+right: 20px;
+background: #ff4d4d;
+color: white;
+padding: 20px;
+border-radius: 10px;
+width: 280px;
+box-shadow: 0 0 10px rgba(0,0,0,0.3);
+z-index: 9999;
+">
+
+<h4>🎉 {{ offer.title }}</h4>
+<p>{{ offer.message }}</p>
+<strong>{{ offer.discount }}% OFF</strong>
+
+<br><br>
+
+<button onclick="document.getElementById('offerPopup').style.display='none'"
+style="
+background:white;
+color:black;
+border:none;
+padding:5px 10px;
+border-radius:5px;
+cursor:pointer;
+">
+Close
+</button>
+
+</div>
+{% endif %}
+</body>
+
+</html>

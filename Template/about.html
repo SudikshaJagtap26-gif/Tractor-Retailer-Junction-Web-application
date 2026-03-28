@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block class %}sub_page about-page{% endblock class %}
+
+{% block about_status %}active{% endblock about_status %}
+
+{% block main %}
+
+  <!-- about section -->
+
+  <section class="about-video-section">
+  <!-- Background Video -->
+  <video class="about-bg-video" autoplay muted loop playsinline>
+    <source src="{% static 'videos/tractor_video.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Overlay -->
+  <div class="about-video-overlay">
+   <div class="about-video-content">
+  <h2>शेतकऱ्यांचा विश्वास - श्री समर्थ सेल्स अँड सर्व्हिसेस</h2>
+
+  <div class="about-video-text">
+    {% for i in data %}
+      {{ i.Description|safe }}
+    {% endfor %}
+  </div>
+</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end about section -->
+
+{% endblock main %}

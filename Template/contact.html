@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block main %}
+
+<section class="contact_section layout_padding">
+  <div class="container">
+    <div class="heading_container">
+      <h2>Contact Us</h2>
+      <p>Get in touch with us</p>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" name="name" class="form-control mb-3" placeholder="Your Name" required>
+      <input type="email" name="email" class="form-control mb-3" placeholder="Your Email" required>
+      <input type="text" name="phone" class="form-control mb-3" placeholder="Phone Number">
+      <textarea name="message" class="form-control mb-3" placeholder="Your Message" required></textarea>
+      <button class="btn btn-primary">Send Message</button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

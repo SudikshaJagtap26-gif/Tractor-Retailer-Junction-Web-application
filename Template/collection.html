@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+{% block menu_status %}active{% endblock menu_status %}
+{% load static %}
+
+{% block main %}
+
+<!-- ================= OFFERS ================= -->
+<section class="offer_section layout_padding-bottom">
+  <div class="container text-center">
+    <h2>🔥 Special Offers</h2>
+    <div id="offerText"></div>
+  </div>
+</section>
+
+<!-- ================= TRACTOR COLLECTION ================= -->
+<section class="food_section layout_padding-bottom">
+  <div class="container">
+    <div class="heading_container heading_center">
+      <h2>Our Tractor Collection</h2>
+    </div>
+<ul class="filters_menu">
+  <li class="active" onclick="filterTractors('All', this)">All</li>
+
+  {% for cat in categories %}
+  <li onclick="filterTractors('{{ cat.Category_name }}', this)">
+      {{ cat.Category_name }}
+  </li>
+  {% endfor %}
+</ul>
+    <div class="row" id="tractorGrid">
+      <!-- JS Injected Tractors -->
+    </div>
+  </div>
+</section>
+
+<!-- ================= DETAILS MODAL ================= -->
+<div id="tractorModal" class="tractor-modal" onclick="outsideClose(event)">
+  <div class="tractor-modal-content">
+
+
+    <div class="modal-img-box">
+  <span class="modal-close-icon" onclick="closeModal()">×</span>
+
+  <button class="slider-btn prev" onclick="prevImage()">❮</button>
+  <img id="mImg" alt="">
+  <button class="slider-btn next" onclick="nextImage()">❯</button>
+
+</div>
+
+    <div class="modal-detail-box">
+      <h3 id="mName"></h3>
+      <p id="mDesc"></p>
+      <p><b>On Road Price:</b> <span id="mPrice"></span></p>
+      <p><b>Fixed Price:</b> <span id="nPrice"></span></p>
+<div id="specSection">
+  <p><b>Engine:</b> <span id="mEngine"></span></p>
+  <p><b>Power:</b> <span id="mPower"></span></p>
+  <p><b>No. of Cylinders:</b> <span id="mCylinder"></span></p>
+  <p><b>Gear Box:</b> <span id="mGear"></span></p>
+</div>
+
+      <p>
+        📞 <a id="mCall">Call Owner</a><br>
+        📍 <a id="mMap" target="_blank">Open Showroom Location</a>
+      </p>
+
+      <button id="mWhatsapp" class="btn btn-success">
+        Add to Cart (WhatsApp)
+      </button>
+
+      <button onclick="closeModal()" class="btn btn-secondary">
+        Close
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= PURE JAVASCRIPT ================= -->
+<script>
+/* ===== CUSTOMER CAN EDIT BELOW DATA (NO DEVELOPER NEEDED) ===== */
+let currentImages = [];
+let currentIndex = 0;
+const offers = [
+  "🎉 Buy 1 tractor → 5% discount",
+  "Buy 2 tractors → 10% discount",
+  "Buy 3+ tractors → 15% discount",
+  "🚜 Free Service for 6 months"
+];
+
+const tractors = JSON.parse('{{ tractors_json|escapejs }}');
+/* ===== RENDER OFFERS ===== */
+document.getElementById("offerText").innerHTML =
+  offers.map(o => `<p>${o}</p>`).join("");
+
+/* ===== RENDER TRACTORS ===== */
+const grid = document.getElementById("tractorGrid");
+
+function renderTractors(list) {
+  grid.innerHTML = "";
+//  If no tractors found
+  if (list.length === 0) {
+    grid.innerHTML = `
+      <div class="col-12 text-center">
+        <h4 style="margin-top:30px;color:#888;">
+          🚜 No tractors available in this category yet
+        </h4>
+      </div>
+    `;
+    return;
+  }
+  //  If tractors exist
+
+  list.forEach(t => {
+    grid.innerHTML += `
+      <div class="col-sm-5 col-lg-3">
+        <div class="box">
+          <div class="img-box">
+           <img src="${t.images ? t.images[0] : t.image}" alt="${t.name}" onclick="openDetails(${t.id})" style="cursor:pointer;">
+          </div>
+          <div class="detail-box">
+            <h5>${t.name}</h5>
+            <p>${t.description}</p>
+            <h6>${t.on_road_price || t.price || ""}</h6>
+            <button class="btn btn-primary" onclick="openDetails(${t.id})">
+              Details
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+/* Initial Load */
+renderTractors(tractors);
+function filterTractors(brand, element) {
+  // Active button style
+  document.querySelectorAll(".filters_menu li")
+    .forEach(li => li.classList.remove("active"));
+  element.classList.add("active");
+
+  // Filtering logic
+  if (brand === "All") {
+    renderTractors(tractors);
+  } else {
+    const filtered = tractors.filter(t => t.brand === brand);
+    renderTractors(filtered);
+  }
+}
+
+
+let touchStartX = 0;
+let touchEndX = 0;
+/* ===== IMAGE SLIDER FUNCTIONS (GLOBAL) ===== */
+function nextImage() {
+  if (!currentImages.length) return;
+  currentIndex = (currentIndex + 1) % currentImages.length;
+  document.getElementById("mImg").src = currentImages[currentIndex];
+}
+
+function prevImage() {
+  if (!currentImages.length) return;
+  currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+  document.getElementById("mImg").src = currentImages[currentIndex];
+}
+function handleSwipe() {
+  const swipeDistance = touchEndX - touchStartX;
+
+  // minimum swipe distance
+  if (Math.abs(swipeDistance) < 50) return;
+
+  if (swipeDistance < 0) {
+    nextImage();   // swipe left → next
+  } else {
+    prevImage();   // swipe right → previous
+  }
+}
+/* ===== DETAILS MODAL ===== */
+
+function openDetails(id) {
+  const t = tractors.find(x => x.id === id);
+
+  document.getElementById("mName").innerText = t.name;
+  currentImages = (t.images || []).filter(img => img && img.trim() !== "");
+currentIndex = 0;
+const modalImg = document.getElementById("mImg");
+modalImg.src = currentImages[currentIndex];
+
+// Swipe support
+modalImg.ontouchstart = (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+};
+
+modalImg.ontouchend = (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+};
+
+document.getElementById("mImg").src = currentImages[currentIndex];
+  document.getElementById("mDesc").innerText = t.description;
+
+  //  Prices
+  document.getElementById("mPrice").innerText = t.on_road_price || t.price || "—";
+  document.getElementById("nPrice").innerText = t.fixed_price || "—";
+
+  //  Specifications
+  // Show specs only for tractors
+if (t.brand === "Equipment") {
+  document.getElementById("specSection").style.display = "none";
+} else {
+  document.getElementById("specSection").style.display = "block";
+
+  document.getElementById("mEngine").innerText = t.Engine || "—";
+  document.getElementById("mPower").innerText = t.Power || "—";
+  document.getElementById("mCylinder").innerText = t.No_of_cylinder || "—";
+  document.getElementById("mGear").innerText = t.Gear_box || "—";
+}
+  document.getElementById("mCall").href = `tel:${t.phone}`;
+  document.getElementById("mMap").href = t.location;
+
+  document.getElementById("mWhatsapp").onclick = () => {
+    window.open(
+      `https://wa.me/${t.phone}?text=I am interested in ${t.name}`,
+      "_blank"
+    );
+  
+  };
+
+  document.getElementById("tractorModal").style.display = "block";
+  document.body.style.overflow = "hidden";
+}
+function outsideClose(event) {
+  if (event.target.id === "tractorModal") {
+    closeModal();
+  }
+}
+function closeModal() {
+  document.getElementById("tractorModal").style.display = "none";
+  document.body.style.overflow = "auto";
+}
+
+
+
+</script>
+
+{% endblock main %}
