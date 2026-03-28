@@ -144,20 +144,35 @@ def tractor_collection(request):
     categories = ItemList.objects.all()
 
     tractor_list = []
+
     for t in tractors:
+        images = []
+
+        # ✅ Only add images if they exist (NO empty strings)
+        if t.Image:
+            images.append(t.Image.url)
+        if t.Image2:
+            images.append(t.Image2.url)
+        if t.Image3:
+            images.append(t.Image3.url)
+        if t.Image4:
+            images.append(t.Image4.url)
+        if t.Image5:
+            images.append(t.Image5.url)
+
         tractor_list.append({
             "id": t.id,
             "name": t.Item_name,
             "brand": t.Category.Category_name,
             "on_road_price": t.On_Road_Price,
             "fixed_price": t.Fixed_Price,
-            "images": [
-                t.Image.url if t.Image else "",
-                t.Image2.url if t.Image2 else "",
-                t.Image3.url if t.Image3 else "",
-                t.Image4.url if t.Image4 else "",
-                t.Image5.url if t.Image5 else "",
-            ],
+
+            # ✅ Fixed images
+            "images": images,
+
+            # Optional: first image shortcut (useful in frontend)
+            "image": images[0] if images else "",
+
             "description": t.description,
             "Engine": t.Engine,
             "Power": t.Power,
