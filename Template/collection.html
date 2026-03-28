@@ -98,7 +98,7 @@ const grid = document.getElementById("tractorGrid");
 
 function renderTractors(list) {
   grid.innerHTML = "";
-//  If no tractors found
+
   if (list.length === 0) {
     grid.innerHTML = `
       <div class="col-12 text-center">
@@ -109,14 +109,20 @@ function renderTractors(list) {
     `;
     return;
   }
-  //  If tractors exist
 
   list.forEach(t => {
+
+    let imgPath = t.images ? t.images[0] : t.image;
+
+    if (imgPath && !imgPath.startsWith("http")) {
+      imgPath = window.location.origin + imgPath;
+    }
+
     grid.innerHTML += `
       <div class="col-sm-5 col-lg-3">
         <div class="box">
           <div class="img-box">
-           <img src="${t.images ? t.images[0] : t.image}" alt="${t.name}" onclick="openDetails(${t.id})" style="cursor:pointer;">
+            <img src="${imgPath}" alt="${t.name}" onclick="openDetails(${t.id})" style="cursor:pointer;">
           </div>
           <div class="detail-box">
             <h5>${t.name}</h5>
@@ -131,7 +137,6 @@ function renderTractors(list) {
     `;
   });
 }
-
 /* Initial Load */
 renderTractors(tractors);
 function filterTractors(brand, element) {
@@ -185,8 +190,13 @@ function openDetails(id) {
   currentImages = (t.images || []).filter(img => img && img.trim() !== "");
 currentIndex = 0;
 const modalImg = document.getElementById("mImg");
-modalImg.src = currentImages[currentIndex];
+let modalPath = currentImages[currentIndex];
 
+if (modalPath && !modalPath.startsWith("http")) {
+  modalPath = window.location.origin + modalPath;
+}
+
+modalImg.src = modalPath;
 // Swipe support
 modalImg.ontouchstart = (e) => {
   touchStartX = e.changedTouches[0].screenX;
